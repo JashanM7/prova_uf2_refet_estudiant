@@ -96,7 +96,6 @@ class scooterController extends Controller
 
 
                 $nouScooter = [
-                    'id' => $_SESSION['id_scooter']++,
                     'brain'=> $brain,
                     'model' => $model,
                     'img' => $nomFitxer,

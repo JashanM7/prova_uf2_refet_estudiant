@@ -6,13 +6,14 @@
             
             public function run(){
                 
-
                 session_destroy();
                 session_start();
 
                 $scooterModel = new Scooter();
+
+                $scooterModel->truncate();
+
                 $scooter = [
-                    'id' => $_SESSION['id_scooter']++,
                     'brain'=> 'Dualtron',
                     'model' => 'Achilleus EY4',
                     'img' => 'p1.jpg',
@@ -24,7 +25,6 @@
                 $scooterModel->insert($scooter);
 
                 $scooter = [
-                    'id' => $_SESSION['id_scooter']++,
                     'brain'=> 'Dualtron',
                     'model' => 'City',
                     'img' => 'p2.jpeg',
@@ -36,7 +36,6 @@
                 $scooterModel->insert($scooter);
 
                 $scooter = [
-                    'id' => $_SESSION['id_scooter']++,
                     'brain'=> 'Dualtron',
                     'model' => 'Spider',
                     'img' => 'p3.jpeg',
@@ -48,7 +47,6 @@
                 $scooterModel->insert($scooter);
 
                 $scooter = [
-                    'id' => $_SESSION['id_scooter']++,
                     'brain'=> 'Xiaomi',
                     'model' => 'M365',
                     'img' => 'p4.jpeg',
@@ -60,7 +58,6 @@
                 $scooterModel->insert($scooter);
 
                 $scooter = [
-                    'id' => $_SESSION['id_scooter']++,
                     'brain'=> 'Xiaomi',
                     'model' => 'M365 Pro',
                     'img' => 'p5.jpeg',
@@ -72,7 +69,6 @@
                 $scooterModel->insert($scooter);
 
                 $scooter = [
-                    'id' => $_SESSION['id_scooter']++,
                     'brain'=> 'Bluetran',
                     'model' => 'Lightning 72V',
                     'img' => 'p6.jpg',

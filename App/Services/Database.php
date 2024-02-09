@@ -10,21 +10,24 @@ class Database
 
     public function __construct()
     {
+     
 
         $this->db_host = $_ENV["DB_HOST"];
-        $this->db_host = $_ENV["DB_NAME"];
-        $this->db_host = $_ENV["DB_USER"];
-        $this->db_host = $_ENV["DB_PASSWORD"];
+        $this->db_name = $_ENV["DB_NAME"];
+        $this->db_user = $_ENV["DB_USER"];
+        $this->password = $_ENV["DB_PASSWORD"];
 
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
         
+
         $this->connection = new PDO("mysql:host=$this->db_host;dbname=$this->db_name", $this->db_user, $this->password, $options);
 
         $this->connection->exec("SET CHARACTER SET UTF8");
     }
+
 
     public function getConnection()
     {
@@ -38,7 +41,7 @@ class Database
         $this->connection = null;
     }
 
-    public function queryDataBase($sql, $params = null)
+    public function queryDataBase($sql, $params = null, $last_id=false)
     {
         
         try {
@@ -47,6 +50,12 @@ class Database
                 $statement->execute($params);
             } else {
                 $statement->execute();
+                if(!$last_id){
+                    $this->connection = null;
+                    return $statement;
+                }else{
+                    return $this->connection->lastInsertId();
+                }
             }
             $this->connection = null;
             return $statement;

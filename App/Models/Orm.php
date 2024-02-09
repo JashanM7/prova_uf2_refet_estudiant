@@ -1,4 +1,6 @@
 <?php
+include_once(__DIR__ . "../../Services/Database.php");
+
 class Orm {
 
     protected $model;
@@ -9,27 +11,64 @@ class Orm {
         }
         $this->model = $model;
         
-    
-        
     }
 
     public function getAll() {
-        return $_SESSION[$this->model];
+        $sql = "SELECT * FROM $this->model";
+        $params = null;
+
+        $db = new Database();
+        $result = $db->queryDataBase($sql,$params)->fetchAll();
+        return $result;
     }
 
     public function getById($id) {
-        foreach ($_SESSION[$this->model] as $key => $value) {
-            if ($value['id'] == $id) {
-                return $value;
-            }
-        }
-        return null;
+        
+        $sql = "SELECT * FROM $this->model WHERE id=:id";
+        $params = array(
+            ":id" => $id
+        );
+
+        $db = new Database();
+        $result = $db->queryDataBase($sql,$params)->fetchAll();
+        return $result;
+        
+
     }
 
 
     public function insert($data) {
-        $_SESSION[$this->model][] = $data;
-        return $data;
+
+        $params = array();
+            foreach($data as $key => $value){
+                $params[":$key"] = $value;
+            }
+       
+        if(!isset($data["id"])){
+
+            $columns = implode(", ",array_keys($data));
+            $values = ":" . implode(", :",array_keys($data));
+            $sql = "INSERT INTO $this->model ($columns) VALUES ($values)";
+
+            $db = new Database();
+            $data = $db->queryDataBase($sql,$params, true);
+            //echo "id last insert: " . $data;
+            return $data;
+        }else{
+            $values_sql_update = "";
+            foreach($data as $key => $value){
+                if($key!="id"){
+                    $values_sql_update .= "$key = :key, ";
+                }
+            }
+            $values_sql_update = substr($values_sql_update,0,-2);
+            $sql = "UPDATE $this->model SET $values_sql_update WHERE id=:id";
+            $db = new Database();
+        $result = $db->queryDataBase($sql,$params);
+        return $result;
+        }
+
+
     }
 
     public function update($data) {
@@ -41,15 +80,24 @@ class Orm {
     }
 
     public function truncate() {
-        $_SESSION[$this->model] = [];
+        $sql = "TRUNCATE TABLE $this->model";
+        $params = null;
+    
+        $db = new Database();
+        $db->queryDataBase($sql, $params);
     }
 
     public function deleteById($id) {
-        foreach ($_SESSION[$this->model] as $key => $value) {
-            if ($value['id'] == $id) {
-                unset($_SESSION[$this->model][$key]);
-            }
-        }
+        
+        $sql = "DELETE FROM $this->model WHERE id=:id";
+        
+        $params = array(
+            ":id" => $id
+        );
+
+        $db = new Database();
+        $db->queryDataBase($sql,$params)->fetchAll();
+
     }
 }
 ?>
