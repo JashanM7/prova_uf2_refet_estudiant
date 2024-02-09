@@ -71,15 +71,27 @@ class scooterController extends Controller
         $idScooter = $_POST["id"];
         $brain = $_POST["brain"];
         $model = $_POST["model"];
-        $img = $_FILES["img"]["tmp_name"];
+        //$img = $_FILES["img"]["tmp_name"];
         $price = $_POST["price"];
         $user_rent = $_POST["user_rent"];
+
+        $origen = $_FILES["img"]["tmp_name"];
+        $desti = "scooters/"; 
+
+        $array = explode(".", $_FILES['img']['name']);
+        $extensio = $array[count($array) - 1];
+
+        $nomFitxer = "p" . $_SESSION["counterImatges"] . ".". $extensio;
+
+        $_SESSION["counterImatges"]++;
+
+        Store::store($origen, $desti, $nomFitxer);
 
         $scooter = [
             "id" => $idScooter,
             'brain'=> $brain,
             'model' => $model,
-            'img' => $img,
+            'img' => $nomFitxer,
             'price' => $price,
             'user_rent' => $user_rent,
         ];
@@ -117,7 +129,6 @@ class scooterController extends Controller
                 die();
 
             }
-
 
                 $origen = $_FILES["img"]["tmp_name"];
                 $desti = "scooters/"; 
