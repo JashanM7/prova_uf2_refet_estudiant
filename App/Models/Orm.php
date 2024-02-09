@@ -30,7 +30,7 @@ class Orm {
         );
 
         $db = new Database();
-        $result = $db->queryDataBase($sql,$params)->fetchAll();
+        $result = $db->queryDataBase($sql,$params)->fetch();
         return $result;
         
 
@@ -58,7 +58,7 @@ class Orm {
             $values_sql_update = "";
             foreach($data as $key => $value){
                 if($key!="id"){
-                    $values_sql_update .= "$key = :key, ";
+                    $values_sql_update .= "$key = :$key, ";
                 }
             }
             $values_sql_update = substr($values_sql_update,0,-2);

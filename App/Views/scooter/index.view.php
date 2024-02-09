@@ -63,7 +63,9 @@ if(isset($params["msgFlashScooter"])){
                     <th scope="col">Brain</th>
                     <th scope="col">Model</th>
                     <th scope="col">Price / Minute</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                
                 </tr>
             </thead>
             <tbody>
@@ -89,6 +91,7 @@ if(isset($params["msgFlashScooter"])){
 
                         ?>
                                                             <a class="btn btn-danger" href="/scooter/destroy/?id=<?php echo $scooter["id"]?>">Remove</a></td>
+                                                            <td class="align-middle"> <a class="btn btn-info" href="/scooter/updateGoToVista/?id=<?php echo $scooter["id"]?>">Editar</a></td>
 
                                                             <?php
                               }else{

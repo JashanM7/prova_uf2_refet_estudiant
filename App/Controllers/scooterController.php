@@ -48,7 +48,49 @@ class scooterController extends Controller
         header("Location: /scooter/index");
         die();
 
+    }
 
+    public function updateGoToVista()
+    {
+
+        $idScooter = $_GET["id"];
+
+        $scooterModel = new Scooter();
+        $params["scooter"] = $scooterModel->getById($idScooter);
+
+        
+      
+        $this->render("scooter/update", $params, "site");
+        die();
+
+    }
+
+    public function update()
+    {
+
+        $idScooter = $_POST["id"];
+        $brain = $_POST["brain"];
+        $model = $_POST["model"];
+        $img = $_FILES["img"]["tmp_name"];
+        $price = $_POST["price"];
+        $user_rent = $_POST["user_rent"];
+
+        $scooter = [
+            "id" => $idScooter,
+            'brain'=> $brain,
+            'model' => $model,
+            'img' => $img,
+            'price' => $price,
+            'user_rent' => $user_rent,
+        ];
+
+        $scooterModel = new Scooter();
+        $scooterModel->insert($scooter);
+
+        $_SESSION["msgFlashScooter"] = '<div class="alert alert-info" role="alert">Scooter updated</div>';        
+
+        header("Location: /scooter/index");
+        die();
 
     }
 
