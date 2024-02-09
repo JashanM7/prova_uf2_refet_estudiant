@@ -1,18 +1,20 @@
 <?php 
 
     include_once(__DIR__ . "/../Models/Scooter.php");
+    include_once(__DIR__ . "/../Models/Rent.php");
 
     class resetController extends Controller{
             
             public function run(){
                 
-                session_destroy();
-                session_start();
+                $db = new Database();
+                $sql = "DROP TABLE IF EXISTS scooters, rents";
+                $db->queryDataBase($sql);
+
+                Scooter::createTable();
+                Rent::createTable();
 
                 $scooterModel = new Scooter();
-
-                $scooterModel->truncate();
-
                 $scooter = [
                     'brain'=> 'Dualtron',
                     'model' => 'Achilleus EY4',
@@ -77,6 +79,18 @@
 
                 ];
 
+                $rentModel = new Rent();
+
+                $startDT = new DateTime("now",new DateTimeZone("Europe/Madrid"));
+
+                $rent = [
+                    "id_scooter" => 1,
+                    "user" => "Hector",
+                    "start" => $startDT->format("Y-m-d H:i:s"),
+                    "end" => null,
+                ];
+
+                $rentModel->insert($rent);
 
                 header("Location: /main/index");
             }

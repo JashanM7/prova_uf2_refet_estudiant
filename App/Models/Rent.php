@@ -42,6 +42,23 @@ include_once(__DIR__ . "/Scooter.php");
 
         }
 
+        public static function createTable(){
+
+            $db = new Database();
+
+            $sql = "CREATE TABLE IF NOT EXISTS ins.rents(
+            id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            user VARCHAR(256) NOT NULL,
+            start DATETIME NOT NULL,
+            end DATETIME,
+            id_scooter INT NOT NULL,
+            FOREIGN KEY (id_scooter) REFERENCES ins.scooters(id) ON DELETE CASCADE)
+            ENGINE=InnoDB;";
+
+            $db->queryDataBase($sql);
+
+        }
+
    }
 
    

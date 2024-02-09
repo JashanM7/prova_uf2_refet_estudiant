@@ -2,8 +2,7 @@
     include_once(__DIR__ . "/../Models/Scooter.php");
     include_once(__DIR__ . "/../Core/Store.php");
     include_once(__DIR__ . "/../Models/Rent.php");
-
-
+    include_once(__DIR__ . "/../Helpers/fun.php");
 
 class scooterController extends Controller
 {
@@ -26,9 +25,6 @@ class scooterController extends Controller
             $params["msgFlashScooter"] = $_SESSION["msgFlashScooter"];
             unset($_SESSION["msgFlashScooter"]);
         }
-
-        
-
 
         $this->render("scooter/index", $params, "site");
         die();
@@ -57,8 +53,6 @@ class scooterController extends Controller
 
         $scooterModel = new Scooter();
         $params["scooter"] = $scooterModel->getById($idScooter);
-
-        
       
         $this->render("scooter/update", $params, "site");
         die();
@@ -75,17 +69,7 @@ class scooterController extends Controller
         $price = $_POST["price"];
         $user_rent = $_POST["user_rent"];
 
-        $origen = $_FILES["img"]["tmp_name"];
-        $desti = "scooters/"; 
-
-        $array = explode(".", $_FILES['img']['name']);
-        $extensio = $array[count($array) - 1];
-
-        $nomFitxer = "p" . $_SESSION["counterImatges"] . ".". $extensio;
-
-        $_SESSION["counterImatges"]++;
-
-        Store::store($origen, $desti, $nomFitxer);
+        $nomFitxer = guardaUnaImatgeRetornaNomFitxer($_FILES["img"]);
 
         $scooter = [
             "id" => $idScooter,
@@ -130,23 +114,7 @@ class scooterController extends Controller
 
             }
 
-                $origen = $_FILES["img"]["tmp_name"];
-                $desti = "scooters/"; 
-
-                $array = explode(".", $_FILES['img']['name']);
-                $extensio = $array[count($array) - 1];
-
-                if(!isset($_SESSION["counterImatges"])){
-                    $_SESSION["counterImatges"] = 7;
-                }
-
-
-                $nomFitxer = "p" . $_SESSION["counterImatges"] . ".". $extensio;
-
-                $_SESSION["counterImatges"]++;
-
-                Store::store($origen, $desti, $nomFitxer);
-
+                $nomFitxer = guardaUnaImatgeRetornaNomFitxer($_FILES["img"]);
 
                 $nouScooter = [
                     'brain'=> $brain,

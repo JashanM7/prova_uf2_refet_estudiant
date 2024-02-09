@@ -8,7 +8,7 @@
         }
 
 
-        public function createTable(){
+        public static function createTable(){
 
             $db = new Database();
 

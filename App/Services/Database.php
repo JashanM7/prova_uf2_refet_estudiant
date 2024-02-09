@@ -41,24 +41,26 @@ class Database
         $this->connection = null;
     }
 
-    public function queryDataBase($sql, $params = null, $last_id=false)
+    public function queryDataBase($sql, $params = null, $id=false)
     {
         
         try {
             $statement = $this->connection->prepare($sql);
             if($params != null) {
-                $statement->execute($params);
-            } else {
-                $statement->execute();
-                if(!$last_id){
-                    $this->connection = null;
-                    return $statement;
-                }else{
-                    return $this->connection->lastInsertId();
-                }
+                $success = $statement->execute($params);
+            }else{
+                $success = $statement->execute();
             }
-            $this->connection = null;
+
+            if($id){
+                $result = $this->connection->lastInsertId();
+            }else{
+                $result = $statement;
+            }
+            
+            self::closeConnection();
             return $statement;
+            
         } catch (Exception $ex) {
             $error = $ex->getMessage();
             echo $ex->getMessage();
