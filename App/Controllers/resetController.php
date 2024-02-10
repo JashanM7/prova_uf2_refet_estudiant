@@ -94,9 +94,9 @@
 
                 $holaRent = $rentModel->getRentWithScooterId(1);
 
-                echo "<pre>";
-                var_dump($holaRent->fetch());
-                echo "</pre>";
+                //echo "<pre>";
+                //var_dump($holaRent->fetch());
+                //echo "</pre>";
 
 
                 header("Location: /main/index");
