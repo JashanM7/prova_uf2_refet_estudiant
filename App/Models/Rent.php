@@ -1,4 +1,5 @@
 <?php
+include_once(__DIR__ . "../../Services/Database.php");
 include_once(__DIR__ . "/Scooter.php");
 
 
@@ -32,13 +33,14 @@ include_once(__DIR__ . "/Scooter.php");
 
         public function getRentWithScooterId($scooterId){
 
-            foreach ($_SESSION["rents"] as $elRent) {
-                if($elRent["id_scooter"] == $scooterId){
-                    return $elRent;
-                }
-            }
+            $sql = "SELECT * FROM $this>model WHERE id_scooter=:id";
 
-            return null;
+            $params = array(
+                ":id" => $scooterId
+            );
+
+            $db = new Database();
+            $result = $db->queryDataBase($sql,$params);
 
         }
 

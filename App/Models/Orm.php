@@ -15,10 +15,9 @@ class Orm {
 
     public function getAll() {
         $sql = "SELECT * FROM $this->model";
-        $params = null;
 
         $db = new Database();
-        $result = $db->queryDataBase($sql,$params)->fetchAll();
+        $result = $db->queryDataBase($sql)->fetchAll();
         return $result;
     }
 

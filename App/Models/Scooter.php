@@ -1,4 +1,5 @@
 <?php
+include_once(__DIR__ . "../../Services/Database.php");
 
 
     class Scooter extends Orm{
