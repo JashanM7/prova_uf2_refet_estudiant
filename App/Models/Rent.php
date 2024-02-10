@@ -33,7 +33,7 @@ include_once(__DIR__ . "/Scooter.php");
 
         public function getRentWithScooterId($scooterId){
 
-            $sql = "SELECT * FROM $this>model WHERE id_scooter=:id";
+            $sql = "SELECT * FROM $this->model WHERE id_scooter=:id";
 
             $params = array(
                 ":id" => $scooterId
@@ -42,6 +42,7 @@ include_once(__DIR__ . "/Scooter.php");
             $db = new Database();
             $result = $db->queryDataBase($sql,$params);
 
+            return $result;
         }
 
         public static function createTable(){
